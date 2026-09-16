@@ -1,0 +1,53 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package
+      Name="Bird Screensaver"
+      Manufacturer="Bird Screensaver"
+      Version="0.1.0"
+      UpgradeCode="8f3c2a91-4d6e-4b17-9c5a-2e8d71b0f4a3"
+      Scope="perUser">
+    <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+    <Feature Id="Main" Title="Bird Screensaver" Level="1">
+      <Files Directory="INSTALLFOLDER" Include="..\artifacts\app\**" />
+      <ComponentRef Id="StartMenuShortcuts" />
+      <ComponentRef Id="CleanupInstallFolder" />
+    </Feature>
+    <Feature Id="SetScreensaver" Title="Set as the current screensaver" Level="1" AllowAbsent="yes">
+      <ComponentRef Id="ScreensaverRegistration" />
+    </Feature>
+
+    <StandardDirectory Id="LocalAppDataFolder">
+      <Directory Id="INSTALLFOLDER" Name="BirdScreensaver" />
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="AppMenuFolder" Name="Bird Screensaver" />
+    </StandardDirectory>
+  </Package>
+
+  <Fragment>
+    <Component Id="CleanupInstallFolder" Directory="INSTALLFOLDER" Guid="e4b8c1a7-2f09-4c6d-8a15-9d3e70b2c641">
+      <RemoveFolder Id="RemoveInstallFolder" On="uninstall" />
+      <RegistryValue Root="HKCU" Key="Software\BirdScreensaver" Name="InstallFolder" Type="string" Value="[INSTALLFOLDER]" KeyPath="yes" />
+    </Component>
+    <Component Id="StartMenuShortcuts" Directory="AppMenuFolder" Guid="c2e1d0b4-7a58-4f21-9d33-6b0c8e91a5f2">
+      <Shortcut
+          Id="DemoShortcut"
+          Name="Bird Screensaver"
+          Target="[INSTALLFOLDER]BirdScreensaver.exe"
+          Arguments="--window --demo"
+          WorkingDirectory="INSTALLFOLDER" />
+      <Shortcut
+          Id="SettingsShortcut"
+          Name="Bird Screensaver settings"
+          Target="[INSTALLFOLDER]BirdScreensaver.exe"
+          Arguments="configure"
+          WorkingDirectory="INSTALLFOLDER" />
+      <RemoveFolder Id="AppMenuFolder" On="uninstall" />
+      <RegistryValue Root="HKCU" Key="Software\BirdScreensaver" Name="Installed" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+    <Component Id="ScreensaverRegistration" Directory="INSTALLFOLDER" Guid="a9f4b7c2-1e60-4d8a-b3c5-7d2e91f0a814">
+      <RegistryValue Root="HKCU" Key="Control Panel\Desktop" Name="SCRNSAVE.EXE" Type="string" Value="[INSTALLFOLDER]BirdScreensaver.scr" KeyPath="yes" />
+      <RegistryValue Root="HKCU" Key="Control Panel\Desktop" Name="ScreenSaveActive" Type="string" Value="1" />
+    </Component>
+  </Fragment>
+</Wix>
