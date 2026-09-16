@@ -79,8 +79,8 @@ public partial class SettingsWindow : Window
         ModelStatus.Text = "Fetching plates…";
         try
         {
-            await Task.Run(() => FetchAssets.Run(new Progress<string>(s =>
-                Dispatcher.Invoke(() => ModelStatus.Text = s))));
+            var progress = new Progress<string>(s => ModelStatus.Text = s);
+            await FetchAssets.RunAsync(progress, CancellationToken.None);
         }
         catch (Exception ex)
         {

@@ -13,8 +13,7 @@ BirdNET models are for personal, non-commercial use.
 ## What you need
 
 - Windows 10 or 11
-- [.NET 9 SDK](https://dotnet.microsoft.com/download)
-- Git (to fetch plates)
+- [.NET 9 SDK](https://dotnet.microsoft.com/download) to build from source
 - A microphone, unless you use demo mode
 - About 150 MB for a regional BirdNET model, plus the plates
 

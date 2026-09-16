@@ -39,7 +39,8 @@ internal static class Program
                 return PreviewCommand.Run(parsed.Output!, settings, parsed.Demo);
             case Mode.FetchAssets:
                 EnsureConsole();
-                FetchAssets.Run(new Progress<string>(Console.WriteLine));
+                FetchAssets.RunAsync(new Progress<string>(Console.WriteLine), CancellationToken.None)
+                    .GetAwaiter().GetResult();
                 return 0;
             case Mode.FetchModel:
                 EnsureConsole();
